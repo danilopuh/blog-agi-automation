@@ -1,0 +1,38 @@
+name: CI - Blog Agi Automation
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache do Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Instalar dependências
+        run: mvn -q -B -e -DskipTests clean install
+
+      - name: Executar testes
+        run: mvn -q -B -e test
+
+      - name: Publicar Relatório HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: Relatorio-Testes
+          path: target/cucumber-reports.html
