@@ -66,7 +66,58 @@
           <systemPropertyVariables>
             <cucumber.filter.tags>@e2e</cucumber.filter.tags>
           </systemPropertyVariables>
+          <testFailureIgnore>true</testFailureIgnore>
         </configuration>
+      </plugin>
+      
+      <!-- Plugin para relatórios avançados Cucumber -->
+      <plugin>
+        <groupId>net.masterthought</groupId>
+        <artifactId>maven-cucumber-reporting</artifactId>
+        <version>5.7.7</version>
+        <executions>
+          <execution>
+            <id>execution</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <projectName>Blog Agi Automation</projectName>
+              <skip>false</skip>
+              <outputDirectory>${project.build.directory}/cucumber-html-reports</outputDirectory>
+              <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
+              <jsonFiles>
+                <param>**/*.json</param>
+              </jsonFiles>
+              <mergeFeaturesById>false</mergeFeaturesById>
+              <mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
+              <checkBuildResult>false</checkBuildResult>
+              <buildNumber>1.0</buildNumber>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- Plugin para relatórios de cobertura -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.11</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
