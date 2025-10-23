@@ -84,7 +84,7 @@
             </goals>
             <configuration>
               <projectName>Blog Agi Automation</projectName>
-              <skip>false</skip>
+              <skip>${skipTests}</skip>
               <outputDirectory>${project.build.directory}/cucumber-html-reports</outputDirectory>
               <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
               <jsonFiles>

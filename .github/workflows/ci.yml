@@ -45,6 +45,7 @@ jobs:
         with:
           name: Relatorio-Testes
           path: |
+            target/cucumber-html-reports/
             target/cucumber-reports/
             target/site/jacoco/
             target/surefire-reports/
