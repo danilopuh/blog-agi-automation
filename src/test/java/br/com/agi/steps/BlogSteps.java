@@ -76,6 +76,27 @@ public class BlogSteps {
         Assert.assertTrue("Ao menos um título deveria conter o termo pesquisado", anyMatch);
     }
 
+    @Entao("pelo menos um título contém algum dos termos pesquisados")
+    public void pelo_menos_um_titulo_contem_algum_dos_termos_pesquisados() {
+        String[] termos = lastTerm.split(" ");
+        boolean anyMatch = false;
+        
+        for (String termo : termos) {
+            String normalizedTerm = normalize(termo.trim());
+            if (!normalizedTerm.isEmpty()) {
+                boolean termMatch = search.getTitles().stream()
+                        .map(this::normalize)
+                        .anyMatch(t -> t.contains(normalizedTerm));
+                if (termMatch) {
+                    anyMatch = true;
+                    break;
+                }
+            }
+        }
+        
+        Assert.assertTrue("Ao menos um título deveria conter pelo menos um dos termos pesquisados", anyMatch);
+    }
+
     private String normalize(String s){
         String n = java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFD);
         n = n.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
